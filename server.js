@@ -1,14 +1,20 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
+
+//load env variables and path
+dotenv.config({ path: './config/config.env' });
 
 //require the bootcamps routes files
 const bootcamps = require('./routes/bootcamps');
 
-//oad env variables and path
-dotenv.config({ path: './config/config.env' });
-
 //initialize express
 const app = express();
+
+//run morgan if in development mode
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 //mount routes
 app.use('/api/v1/bootcamps', bootcamps);
