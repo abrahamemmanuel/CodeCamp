@@ -46,7 +46,7 @@ const deleteData = asyncHandler(async() => {
 
 //if you are not sure if all fake data has been imported or deleted, you can use this function to delete all data or import data
 //to do so, simply "run node seeder -c" in command line to check if data is already imported or not
-const checkForData = asyncHandler (async() => {
+const checkForData = asyncHandler(async() => {
   const bootcamps = await Bootcamp.find();
   if (bootcamps.length > 0) {
     rl.question('This will delete all current data, are you sure? (y/n)', answer => {
