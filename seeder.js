@@ -16,6 +16,7 @@ dotenv.config({ path: './config/config.env' });
 
 //load models
 const Bootcamp = require('./app/Models/Bootcamp');
+const Course = require('./app/Models/Course');
 
 //connect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -28,10 +29,15 @@ const bootcamps = JSON.parse(
   fs.readFileSync(`${__dirname}/database/seeders/bootcamps.json`, 'utf-8')
 );
 
+const courses = JSON.parse(
+  fs.readFileSync(`${__dirname}/database/seeders/courses.json`, 'utf-8')
+);
+
 //import into db
 //run node seeder -i in command line to import data
 const importData = asyncHandler(async() => {
     await Bootcamp.create(bootcamps);
+    await Course.create(courses);
     console.log('Data Imported...'.green.inverse);
     process.exit();
 });
@@ -40,6 +46,7 @@ const importData = asyncHandler(async() => {
 //run node seeder -d in command line to delete data
 const deleteData = asyncHandler(async() => {
     await Bootcamp.deleteMany();
+    await Course.deleteMany();
     console.log('Data Destroyed...'.red.inverse);
     process.exit();
 });
@@ -48,7 +55,8 @@ const deleteData = asyncHandler(async() => {
 //to do so, simply "run node seeder -c" in command line to check if data is already imported or not
 const checkForData = asyncHandler(async() => {
   const bootcamps = await Bootcamp.find();
-  if (bootcamps.length > 0) {
+  const courses = await Course.find();
+  if (bootcamps.length > 0 || courses.length > 0) {
     rl.question('This will delete all current data, are you sure? (y/n)', answer => {
       if (answer.toLowerCase() === 'y') {
         deleteData();
@@ -57,7 +65,7 @@ const checkForData = asyncHandler(async() => {
         process.exit();
       }
     });
-  } else if (bootcamps.length === 0) {
+  } else if (bootcamps.length === 0 && courses.length === 0) {
     rl.question('This will seed database with fake data, are you sure? (y/n)', answer => {
       if (answer.toLowerCase() === 'y') {
         importData();
