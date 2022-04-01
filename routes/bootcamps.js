@@ -1,7 +1,7 @@
 //require express
 const express = require('express');
 //import the bootcamp controller from app/Htpp/Controllers/Api/V1/BootcampsController.js
-const {getBootcamps, getBootcamp, createBootcamp, updateBootcamp, deleteBootcamp, getBootcampsInRadius} = require('../app/Http/Controllers/Api/V1/BootcampController');
+const {getBootcamps, getBootcamp, createBootcamp, updateBootcamp, deleteBootcamp, getBootcampsInRadius, bootcampPhotoUpload} = require('../app/Http/Controllers/Api/V1/BootcampController');
 
 //include the other resource routers
 const courseRouter = require('./courses');
@@ -14,6 +14,8 @@ router.use('/:bootcampId/courses', courseRouter);
 
 //mount the routes
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
+
+//
 
 router
   .route('/')

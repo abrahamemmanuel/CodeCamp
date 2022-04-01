@@ -37,7 +37,7 @@ const courses = JSON.parse(
 //run node seeder -i in command line to import data
 const importData = asyncHandler(async() => {
     await Bootcamp.create(bootcamps);
-    // await Course.create(courses);
+    await Course.create(courses);
     console.log('Data Imported...'.green.inverse);
     process.exit();
 });
