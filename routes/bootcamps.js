@@ -15,7 +15,7 @@ router.use('/:bootcampId/courses', courseRouter);
 //mount the routes
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius);
 
-//
+router.route('/:id/photo').put(bootcampPhotoUpload);
 
 router
   .route('/')
@@ -27,6 +27,5 @@ router
   .get(getBootcamp)
   .put(updateBootcamp)
   .delete(deleteBootcamp);
-
 
 module.exports = router;

@@ -1,3 +1,4 @@
+const path = require('path');
 const Bootcamp = require('../../../../Models/Bootcamp');
 const ErrorResponse = require('../../../../Utils/errorResponse');
 const asyncHandler = require('../../../Middleware/async');
