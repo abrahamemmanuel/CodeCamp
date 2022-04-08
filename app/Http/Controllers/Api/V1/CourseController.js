@@ -3,29 +3,24 @@ const Bootcamp = require('../../../../Models/Bootcamp');
 const ErrorResponse = require('../../../../Utils/errorResponse');
 const asyncHandler = require('../../../Middleware/async');
 
-//@desc Get all course
+//@desc Get all courses
 //@route GET /api/v1/courses
 //@route GET /api/v1/bootcamps/:bootcampId/courses
 //@access Public
 exports.getCourses = asyncHandler(async (req, res, next) => {
-  let query;
   if (req.params.bootcampId) {
-    query = Course.find({ bootcamp: req.params.bootcampId });
-  } else {
-    query = Course.find().populate({
-      path: 'bootcamp',
-      select: 'name description'
+    const courses = await Course.find({ bootcamp: req.params.bootcampId });
+    res.status(200).json({
+      success: true,
+      count: courses.length,
+      data: courses,
     });
+  }else{
+    res.status(200).json(res.advancedResults);
   }
-  const courses = await query;
-  res.status(200).json({
-    success: true,
-    count: courses.length,
-    data: courses
-  });
 });
 
-//@desc Get all courses in a bootcamp
+//@desc Get a single course
 //@route GET /api/v1/courses/:id
 //@access Public
 exports.getCourse = asyncHandler(async (req, res, next) => {

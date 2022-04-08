@@ -3,6 +3,9 @@ const express = require('express');
 //import the bootcamp controller from app/Htpp/Controllers/Api/V1/BootcampsController.js
 const {getBootcamps, getBootcamp, createBootcamp, updateBootcamp, deleteBootcamp, getBootcampsInRadius, bootcampPhotoUpload} = require('../app/Http/Controllers/Api/V1/BootcampController');
 
+const advancedResults = require('../app/Http/Middleware/advancedResults');
+const Bootcamp = require('../app/Models/Bootcamp');
+
 //include the other resource routers
 const courseRouter = require('./courses');
 
@@ -19,7 +22,7 @@ router.route('/:id/photo').put(bootcampPhotoUpload);
 
 router
   .route('/')
-  .get(getBootcamps)
+  .get(advancedResults(Bootcamp, 'courses'), getBootcamps)
   .post(createBootcamp);
 
 router
